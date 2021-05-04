@@ -7,18 +7,21 @@ public class PlayerMovement : MonoBehaviour
     // Public variables
     public float movementForce = 10f;
     public float jumpForce = 1000f;
+    public int maxJumpCharge = 1;
+    public int jumpCharge;
+    public Collider2D jumpSensor;
 
     // Variable to hold the audio clip to play when walking.
     public AudioClip footstepSound;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        jumpCharge = maxJumpCharge;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         // Condition: When a player presses the D key...
@@ -71,8 +74,14 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (jumpSensor.IsTouchingLayers(LayerMask.GetMask("PowerUp")))
+            maxJumpCharge = 2;
+
+        if (jumpSensor.IsTouchingLayers(LayerMask.GetMask("Ground")))
+            jumpCharge = maxJumpCharge;
+
         //Condition: When the player first presses space bar
-        if (Input.GetKeyDown(KeyCode.Space) == true)
+        if (Input.GetKeyDown(KeyCode.Space) == true && jumpCharge > 0)
         {
             //Action: Apply a force (push the player up)
             // Get the Rigidbody component off our player so we can use it
@@ -80,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
 
             // Add a force to the Rigidbody to move our player
             ourRigidbody.AddForce(Vector2.up * jumpForce);
+            jumpCharge -= 1;
         }
     }
 }
