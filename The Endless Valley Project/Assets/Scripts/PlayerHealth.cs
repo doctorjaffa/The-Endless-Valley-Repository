@@ -29,10 +29,10 @@ public class PlayerHealth : MonoBehaviour
     //It will only be called manually by own code. 
     //It must be marked 'public' so other scripts can access it. 
     //This function will change the health value of the player.
-    public void changeHealth(int changeAmount)
+    public void ChangeHealth(int changeAmount)
     {
         //Take current health, add the change amount and store the result back into current health.
-        currentHealth = currentHealth + changeAmount;
+        currentHealth += changeAmount;
 
         //Current health cannot go below zero or above starting health so special 
         //function "Clamp" is used to keep it between 0 and the starting health.
@@ -46,6 +46,10 @@ public class PlayerHealth : MonoBehaviour
 
         }
 
+        if (currentHealth > startingHealth)
+        {
+            currentHealth--;
+        }
     }
 
     //This function is NOT built into Unity. 

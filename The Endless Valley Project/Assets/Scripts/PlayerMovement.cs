@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Variable to hold the audio clip to play when walking.
     public AudioClip footstepSound;
+    public AudioClip doubleJumpSound;
 
     // Start is called before the first frame update
     void Awake()
@@ -35,17 +36,17 @@ public class PlayerMovement : MonoBehaviour
             ourRigidbody.AddForce(Vector2.right * movementForce);
 
             // Get audio source to play footstep sounds
-            AudioSource ourAudioSource = GetComponent<AudioSource>();
+            AudioSource walkAudioSource = GetComponent<AudioSource>();
 
             // Check if clip is already playing
-            if (ourAudioSource.clip == footstepSound && ourAudioSource.isPlaying)
+            if (walkAudioSource.clip == footstepSound && walkAudioSource.isPlaying)
             {
                 // Do nothing - the audio source is already playing the sound effect
             }
             else
             {
-                ourAudioSource.clip = footstepSound;
-                ourAudioSource.Play();
+                walkAudioSource.clip = footstepSound;
+                walkAudioSource.Play();
             }
         }
 
@@ -60,22 +61,37 @@ public class PlayerMovement : MonoBehaviour
             ourRigidbody.AddForce(Vector2.left * movementForce);
 
             // Get audio source to play footstep sounds
-            AudioSource ourAudioSource = GetComponent<AudioSource>();
+            AudioSource walkAudioSource = GetComponent<AudioSource>();
 
             // Check if clip is already playing
-            if (ourAudioSource.clip == footstepSound && ourAudioSource.isPlaying)
+            if (walkAudioSource.clip == footstepSound && walkAudioSource.isPlaying)
             {
                 // Do nothing - the audio source is already playing the sound effect
             }
             else
             {
-                ourAudioSource.clip = footstepSound;
-                ourAudioSource.Play();
+                walkAudioSource.clip = footstepSound;
+                walkAudioSource.Play();
             }
         }
 
         if (jumpSensor.IsTouchingLayers(LayerMask.GetMask("PowerUp")))
+        {
             maxJumpCharge = 2;
+            // Get audio source to play footstep sounds
+            AudioSource ourAudioSource = GetComponent<AudioSource>();
+
+            // Check if clip is already playing
+            if (ourAudioSource.clip == doubleJumpSound && ourAudioSource.isPlaying)
+            {
+                // Do nothing - the audio source is already playing the sound effect
+            }
+            else
+            {
+                ourAudioSource.clip = doubleJumpSound;
+                ourAudioSource.Play();
+            }
+        }
 
         if (jumpSensor.IsTouchingLayers(LayerMask.GetMask("Ground")))
             jumpCharge = maxJumpCharge;

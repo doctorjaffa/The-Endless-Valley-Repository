@@ -28,7 +28,7 @@ public class Hazard : MonoBehaviour
             //This means this object is the player.
 
             //Therefore perform the action.
-            player.changeHealth(-hazardDamage);
+            player.ChangeHealth(-hazardDamage);
         }
     }
 
